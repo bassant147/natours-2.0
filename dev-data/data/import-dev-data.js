@@ -1,7 +1,10 @@
 const fs = require('fs');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
-const Tour = require('../../models/tourModel');
+// for requiring tour data
+//const Tour = require('../../models/tourModel');
+// for requiring user data
+const User = require('../../models/userModel');
 
 dotenv.config({ path: './config.env' });
 
@@ -19,6 +22,7 @@ mongoose.connect(DB, {
 
 // READ JSON FILE
 // *NOTE* we parse the json file from a string to an of JS objects, because Tour.create takes a JS array not a string 
+/*---------- for requiring tour data ------------
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8'));
 
 // IMPORT DATA INTO DATABASE
@@ -36,6 +40,32 @@ const importData = async () => {
 const deleteData = async () => {
   try {
     await Tour.deleteMany();
+    console.log('Data successfully deleted!')
+  } catch(err) {
+    console.log(err);
+  }
+  process.exit();
+}
+-------------- */
+
+// ------- fr requiring user data ---------
+const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
+
+// IMPORT DATA INTO DATABASE
+const importData = async () => {
+  try {
+    await User.create(users);
+    console.log('Data successfully loaded!');
+  } catch(err) {
+    console.log(err);
+  }
+  process.exit();
+}
+
+// DELETE ALL DATA FROM DB
+const deleteData = async () => {
+  try {
+    await User.deleteMany();
     console.log('Data successfully deleted!')
   } catch(err) {
     console.log(err);
