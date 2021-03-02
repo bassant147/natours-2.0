@@ -8,7 +8,8 @@ process.on('uncaughtException', (err) => {
 });
 
 dotenv.config({ path: './config.env' });
-process.env.NODE_ENV = 'production';
+console.log('process.env set to development');
+//process.env.NODE_ENV = 'production';
 const app = require('./app');
 const DB = process.env.DATABASE.replace(
   '<password>',
@@ -19,7 +20,9 @@ mongoose
   .connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
+    autoIndex: true,
     useFindAndModify: false,
+    useUnifiedTopology: true,
   })
   .then(() => console.log('DB connection successful!'));
 
